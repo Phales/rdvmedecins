@@ -1,0 +1,11 @@
+jpa\Cotisation.class
+metier\ElementsSalaire.class
+metier\FeuilleSalaire.class
+jpa\Employe.class
+jpa\Indemnite.class
+metier\Metier.class
+metier\IMetier.class
+metier\IMetierLocal.class
+web\forms\Form.class
+web\utils\ChangeLocale.class
+exception\PamException.class

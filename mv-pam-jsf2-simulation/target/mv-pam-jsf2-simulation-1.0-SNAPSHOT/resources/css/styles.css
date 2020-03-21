@@ -1,0 +1,97 @@
+.libelle{
+   background-color: #ccffff;
+   font-family: 'Times New Roman',Times,serif;
+   font-size: 14px;
+   font-weight: bold
+}
+.error{
+   color: #ff3333
+}
+
+.info{
+   background-color: #99cc00
+}
+
+.titreInfos{
+   background-color: #ffcc00
+}
+
+.simulationsHeader {
+   text-align: center;
+   font-style: italic;
+   color: Snow;
+   background: Teal;
+}
+
+.simuNum {
+   height: 25px;
+   text-align: center;
+   background: MediumTurquoise;
+}
+.simuNom {
+   text-align: left;
+   background: PowderBlue;
+}
+.simuPrenom {
+   width: 6em;
+   text-align: left;
+   color: Black;
+   background: MediumTurquoise;
+}
+.simuHT {
+   width: 3em;
+   text-align: center;
+   color: Black;
+   background: PowderBlue;
+}
+.simuJT {
+   width: 3em;
+   text-align: center;
+   color: Black;
+   background: MediumTurquoise;
+}
+.simuSalaireBase {
+   width: 9em;
+   text-align: center;
+   color: Black;
+   background: PowderBlue;
+}
+.simuIndemnites {
+   width: 3em;
+   text-align: center;
+   color: Black;
+   background: MediumTurquoise;
+}
+.simuCotisationsSociales {
+   width: 6em;
+   text-align: center;
+   background: PowderBlue;
+}
+
+.simuSalaireNet {
+   width: 10em;
+   text-align: center;
+   background: MediumTurquoise;
+}
+
+.erreursHeaders {
+   background: Teal;
+   background-color: #ff6633;
+   color: Snow;
+   font-style: italic;
+   text-align: center
+
+}
+
+.erreurLibelle {
+   background: MediumTurquoise;
+   background-color: #ffcc66;
+   height: 25px;
+   text-align: center
+}
+
+.erreurMessage {
+   background: PowderBlue;
+   background-color: #ffcc99;
+   text-align: left
+}
