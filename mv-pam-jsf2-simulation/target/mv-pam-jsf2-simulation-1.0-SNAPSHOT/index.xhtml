@@ -7,6 +7,7 @@
   <f:view locale="#{changeLocale.locale}">    
     <h:head>
         <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="styles.css"/>
     </h:head>
     <h:body>
         <h:form id="langue"> <!-- l'identidiant id est optionel -->
@@ -18,6 +19,7 @@
         <h1><h:outputText value="#{msg['form.titre']}" /></h1>
         <hr/>
         <h:form id="form">
+            <h:messages globalOnly="true" />
             <table>
                 <tr>
                     <td><h:outputText value="#{msg['form.comboEmployes.libelle']}"/></td>
@@ -28,36 +30,196 @@
                 </tr>
                 <tr>
                     <td>
-                        <h:selectOneMenu id="selectOneMenuDynamic" value="#{form.selectOneMenuDynamic}">
-                            <f:selectItems value="#{form.selectOneMenuDynamicItems}" itemValue="#{form.selectOneMenuDynamic.ss}" itemLabel="#{form.selectOneMenuDynamic.prenom}+#{form.selectOneMenuDynamic.prenom}"/>
+                        <h:selectOneMenu id="selectOneMenuDynamic" value="#{form.selectOneMenuDynamic}" >
+                            <f:selectItems value="#{form.selectOneMenuDynamicItems}" itemValue="#{form.selectOneMenuDynamic.ss}" itemLabel="#{form.selectOneMenuDynamic.name}"/>
                         </h:selectOneMenu>
                     </td>
                     <td>
-                        <h:inputText id="heuresTravaillees" value=""  styleClass="saisie" required="true" requiredMessage="Champ requis" converterMessage="Erreur: entier attendu">
-                            <f:validateLongRange minimum="1" maximum="10" />
+                        <h:inputText id="heuresTravaillees" value="#{form.heuresT}" styleClass="saisie" required="true" requiredMessage="#{msg['form.heuresTravailles.required']}" converterMessage="Erreur: entier attendu" validatorMessage="#{msg['form.heuresTravailles.validation']}">
+                            <f:validateLongRange minimum="0" maximum="31536000" />
                         </h:inputText>
                     </td>
                     <td>
-                        <h:inputText id="joursTravailles" value=""  styleClass="saisie" required="true" requiredMessage="Champ requis" converterMessage="Erreur: entier attendu">
-                            <f:validateLongRange minimum="1" maximum="10" />
+                        <h:inputText id="joursTravailles" value="#{form.joursT}"  styleClass="saisie" required="true" requiredMessage="#{msg['form.joursTravailles.required']}" converterMessage="Erreur: entier attendu" validatorMessage="#{msg['form.joursTravailles.validation']}">
+                            <f:validateLongRange minimum="0" maximum="365" />
                         </h:inputText>
                     </td>
                     <td>
-                        <h:commandButton value="#{msg['form.btnSalaire.libelle']}" onclick='' immediate='true' action="#{form.increment}">
-                            <f:setPropertyActionListener target="#{table.personneId}" value="#{personne.id}"/>
-                        </h:commandButton>
+                        <h:commandButton value="#{msg['form.btnSalaire.libelle']}" onclick="" action="#{form.envoyer}"/>
                     </td>
                     <td>
-                        <h:commandButton value="#{msg['form.btnRaz.libelle']}" onclick='' immediate='true' action="#{form.increment}"/>
+                        <h:commandButton value="#{msg['form.btnRaz.libelle']}" onclick='raz()' immediate='true' action="#{form.raz}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <h:message for="heuresTravaillees" styleClass="error"/>
+                    </td>
+                    <td>
+                        <h:message for="joursTravailles" styleClass="error"/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        <hr/>
+        <f:subview id="viewInfos" rendered="#{form.viewInfosIsRendered}">
+            <h:outputText value="#{msg['form.infos.employe']}" styleClass="titreInfos"/>
+            <table>
+                <tr>
+                    <th>
+                        <h:outputText value="#{msg['form.employe.nom']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.employe.prenom']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.employe.adresse']}" />
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="#{form.selectOneMenuDynamic.nom}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.selectOneMenuDynamic.prenom}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.selectOneMenuDynamic.adresse}" />
                     </td>
                 </tr>
             </table>
-            <!-- LIGNE 1 -->
-        
-        
-        <!-- LIGNE 2 -->
-        
+            <table>
+                <tr>
+                    <th>
+                        <h:outputText value="#{msg['form.employe.ville']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.employe.codePostal']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.employe.indice']}" />
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="#{form.selectOneMenuDynamic.ville}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.selectOneMenuDynamic.cp}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.selectOneMenuDynamic.indemniteId.indice}" />
+                    </td>
+                </tr>
+            </table>
+            <h:outputText value="#{msg['form.infos.cotisations']}" />
+            <table>
+                <tr>
+                    <th>
+                        <h:outputText value="#{msg['form.cotisations.csgrds']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.cotisations.csgd']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.cotisations.retraite']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.cotisations.secu']}" />
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="#{form.metier.calculerFeuilleSalaire(form.selectOneMenuDynamic.ss, form.heuresT, form.joursT).cotisation.csgrds}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.metier.calculerFeuilleSalaire(form.selectOneMenuDynamic.ss, form.heuresT, form.joursT).cotisation.csgd}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.metier.calculerFeuilleSalaire(form.selectOneMenuDynamic.ss, form.heuresT, form.joursT).cotisation.retraite}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.metier.calculerFeuilleSalaire(form.selectOneMenuDynamic.ss, form.heuresT, form.joursT).cotisation.secu}" />
+                    </td>
+                </tr>
+            </table>
+            <h:outputText value="#{msg['form.infos.indemnites']}" />
+            <table>
+                <tr>
+                    <th>
+                        <h:outputText value="#{msg['form.indemnites.salaireHoraire']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.indemnites.entretienJour']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.indemnites.repasJour']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.indemnites.congesPayes']}" />
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="#{form.selectOneMenuDynamic.indemniteId.baseHeure}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.selectOneMenuDynamic.indemniteId.entretienJour}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.selectOneMenuDynamic.indemniteId.repasJour}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.selectOneMenuDynamic.indemniteId.indice}" />
+                    </td>
+                </tr>
+            </table>
+            <h:outputText value="#{msg['form.infos.salaire']}" />
+            <table>
+                <tr>
+                    <th>
+                        <h:outputText value="#{msg['form.salaire.base']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.salaire.cotisationsSociales']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.salaire.entretien']}" />
+                    </th>
+                    <th>
+                        <h:outputText value="#{msg['form.salaire.repas']}" />
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="#{form.metier.calculerFeuilleSalaire(form.selectOneMenuDynamic.ss, form.heuresT, form.joursT).elementsSalaire.salaireBase}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.metier.calculerFeuilleSalaire(form.selectOneMenuDynamic.ss, form.heuresT, form.joursT).elementsSalaire.cotisationsSociales}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.metier.calculerFeuilleSalaire(form.selectOneMenuDynamic.ss, form.heuresT, form.joursT).elementsSalaire.indemnitesEntretien}" />
+                    </td>
+                    <td>
+                        <h:outputText value="#{form.metier.calculerFeuilleSalaire(form.selectOneMenuDynamic.ss, form.heuresT, form.joursT).elementsSalaire.indemnitesRepas}" />
+                    </td>
+                </tr>
+            </table>
+            <h:outputText value="#{msg['form.salaire.net']}" /> : 
+            <f:subview id="viewSalary" rendered="#{form.viewSalaryIsRendered}">
+                <h:outputText value="#{form.metier.calculerFeuilleSalaire(form.selectOneMenuDynamic.ss, form.heuresT, form.joursT).elementsSalaire.salaireNet}" />
+            </f:subview>
+        </f:subview>
         </h:form>
+        <script>
+            function raz(){
+                this.form['form:heuresTravaillees'].value = 0;
+                this.form['form:joursTravailles'].value = 0;
+                //alert(this.form['form:heuresTravaillees'].value);
+            }
+        </script>
     </h:body>
   </f:view>
 </html>

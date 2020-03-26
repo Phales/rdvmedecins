@@ -30,24 +30,68 @@ public class Form implements Serializable
    //Utilisation du logger pour afficher les infos
    private static final Logger logger=Logger.getLogger("forms.Form");
    
-   private String[] selectManyListBox=new String[]{"1","3"};
-   private Employe selectOneMenuDynamic;
+   //private Employe[] selectManyListBox;
+   private Employe selectOneMenuDynamic = metier.findAllEmployes().get(0);
    
-   private FeuilleSalaire feuilleSalaire;
+   private double heuresT;
+   private int joursT;
    
-   public String getSelectManyListBoxValue(){
+   private boolean viewInfosIsRendered = false;
+   
+   private boolean viewSalaryIsRendered = false;
+
+    public boolean isViewSalaryIsRendered() {
+        return viewSalaryIsRendered;
+    }
+
+    public void setViewSalaryIsRendered(boolean viewSalaryIsRendered) {
+        this.viewSalaryIsRendered = viewSalaryIsRendered;
+    }
+
+    public boolean isViewInfosIsRendered() {
+        return viewInfosIsRendered;
+    }
+
+    public void setViewInfosIsRendered(boolean viewInfosIsRendered) {
+        this.viewInfosIsRendered = viewInfosIsRendered;
+    }
+
+    public double getHeuresT() {
+        return heuresT;
+    }
+
+    public void setHeuresT(double heuresT) {
+        this.heuresT = heuresT;
+    }
+
+    public int getJoursT() {
+        return joursT;
+    }
+
+    public void setJoursT(int joursT) {
+        this.joursT = joursT;
+    }
+   
+   /*public Employe getSelectManyListBoxValue(){
     String value="[";
     for(String chaine : selectManyListBox){value+=" "+chaine;}
     return value+"]";
-    }
-    
+    }*/
   
-  public String[] getSelectManyListBox() {
-    return selectManyListBox; }
+//  public Employe[] getSelectManyListBox() {
+//    return selectManyListBox; }
+//  
+//  public void setSelectManyListBox(Employe[] selectManyListBox) {
+//    this.selectManyListBox = selectManyListBox;  }
   
-  public void setSelectManyListBox(String[] selectManyListBox) {
-    this.selectManyListBox = selectManyListBox;  }
+   public IMetierLocal getMetier(){
+      return metier;
+  }
   
+  public void setMetier(IMetierLocal m){
+      metier = m;
+  }
+   
     public Employe getSelectOneMenuDynamic() {
     return selectOneMenuDynamic; }
   
@@ -58,12 +102,19 @@ public class Form implements Serializable
       List<Employe> employes = metier.findAllEmployes();
       SelectItem[] items=new SelectItem[employes.size()];
       for(int i = 0; i<employes.size(); i++){
-          items[i]=new SelectItem(""+i+1+"",employes.get(i).getPrenom()+" "+employes.get(i).getNom()+"");
+          items[i]=new SelectItem(employes.get(i),employes.get(i).getPrenom()+" "+employes.get(i).getNom()+"");
       }
       return items;
   }
+
+  public String envoyer(){
+      this.viewInfosIsRendered = true;
+      this.viewSalaryIsRendered = true;
+      return null;
+  }
   
-  public FeuilleSalaire getFeuilleSalaire(){
-      return feuilleSalaire;
+  public String raz(){
+      this.viewInfosIsRendered = true;
+      return null;
   }
 }

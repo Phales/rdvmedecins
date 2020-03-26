@@ -13,4 +13,6 @@ public interface IMetier {
 FeuilleSalaire calculerFeuilleSalaire(String SS, double nbHeuresTravaillées, int nbJoursTravaillés );
 // liste des employés
 List<Employe> findAllEmployes();
+
+Employe find(String id);
 }

@@ -6,6 +6,11 @@
 package jpa;
 
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -174,7 +179,20 @@ public class Employe implements Serializable {
 
     @Override
     public String toString() {
-        return "jpa.Employe[ id=" + id +", nom=" + getNom()+ ",ss="+getSs()+", idemniteId="+ indemniteId+" ]";
+        //return String.valueOf(getId());
+        return "jpa.Employe[ id=" + getId() +", nom=" + getNom()+ ",ss="+getSs()+", idemniteId="+ getIndemniteId()+" ]";
     }
+    
+    /*public String getAsString(FacesContext context, UIComponent component, Object modelValue) {
+        if (modelValue == null) {
+            return "";
+        }
+
+        if (modelValue instanceof Employe) {
+            return String.valueOf(((Employe) modelValue).getId());
+        } else {
+            throw new ConverterException(new FacesMessage(modelValue + " is not a valid Warehouse"));
+        }
+    }*/
     
 }
